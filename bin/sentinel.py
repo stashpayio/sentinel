@@ -124,6 +124,11 @@ def main():
     stashd = StashDaemon.from_stash_conf(config.stash_conf)
     options = process_args()
 
+    # print version and return if "--version" is an argument
+    if options.version:
+        print("Stash Sentinel v%s" % config.sentinel_version)
+        return
+
     # check stashd connectivity
     if not is_stashd_port_open(stashd):
         print("Cannot connect to stashd. Please ensure stashd is running and the JSONRPC port is open to Sentinel.")
@@ -201,6 +206,10 @@ def process_args():
                         action='store_true',
                         help='Bypass scheduler and sync/vote immediately',
                         dest='bypass')
+    parser.add_argument('-v', '--version',
+                        action='store_true',
+                        help='Print the version (Stash Sentinel vX.X.X) and exit')
+
     args = parser.parse_args()
 
     return args
