@@ -30,17 +30,8 @@ def prune_expired_proposals(stashd):
         proposal.vote(stashd, VoteSignals.delete, VoteOutcomes.yes)
 
 
-# ping stashd
-def sentinel_ping(stashd):
-    printdbg("in sentinel_ping")
-
-    stashd.ping()
-
-    printdbg("leaving sentinel_ping")
-
-
 def attempt_superblock_creation(stashd):
-    import stashlib
+    import dashlib
 
     if not stashd.is_masternode():
         print("We are not a Masternode... can't submit superblocks!")
@@ -173,9 +164,6 @@ def main():
     #
     # load "gobject list" rpc command data, sync objects into internal database
     perform_stashd_object_sync(stashd)
-
-    if stashd.has_sentinel_ping:
-        sentinel_ping(stashd)
 
     # auto vote network objects as valid/invalid
     # check_object_validity(stashd)
